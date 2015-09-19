@@ -6,6 +6,7 @@
     <string name="action_settings">Settings</string>
     <string name="elo_hell">Elo Hello</string>
     <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_add">Add Reminder</string>
 
     <string name="title_to_do">To Do List</string>
     <string name="title_classes">Classes</string>

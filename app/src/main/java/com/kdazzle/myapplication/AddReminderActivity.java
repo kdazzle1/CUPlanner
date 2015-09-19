@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -44,8 +45,7 @@ public class AddReminderActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_reminder);
 
-        Spinner typesSpinner = (Spinner) findViewById(R.id.types_spinner);
-        String category = typesSpinner.getSelectedItem().toString();
+        final Spinner typesSpinner = (Spinner) findViewById(R.id.types_spinner);
 
 
 
@@ -137,12 +137,22 @@ public class AddReminderActivity extends AppCompatActivity {
             }
         });
 
+        final Spinner reminderSpinner = (Spinner) findViewById(R.id.reminder_options_spinner);
+
 
         Button submit = (Button) findViewById(R.id.submit_add_reminder);
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent returnedIntent = new Intent();
+                returnedIntent.putExtra("type",typesSpinner.getSelectedItem().toString());
+                returnedIntent.putExtra("group",groupSpinner.getSelectedItem().toString());
+                returnedIntent.putExtra("date",dateString);
+                returnedIntent.putExtra("time",timeString);
+                returnedIntent.putExtra("reminder",reminderSpinner.getSelectedItem().toString());
 
+                setResult(RESULT_OK,returnedIntent);
+                finish();
             }
         });
     }

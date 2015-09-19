@@ -1,9 +1,13 @@
 package com.kdazzle.myapplication;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
@@ -13,6 +17,8 @@ import android.widget.ListAdapter;
 import android.widget.TextView;
 
 import com.kdazzle.myapplication.dummy.DummyContent;
+
+import java.util.ArrayList;
 
 /**
  * A fragment representing a list of Items.
@@ -34,6 +40,9 @@ public class TodoFragment extends Fragment implements AbsListView.OnItemClickLis
     private String mParam1;
     private String mParam2;
 
+
+
+
     private OnFragmentInteractionListener mListener;
 
     /**
@@ -45,7 +54,7 @@ public class TodoFragment extends Fragment implements AbsListView.OnItemClickLis
      * The Adapter which will be used to populate the ListView/GridView with
      * Views.
      */
-    private ListAdapter mAdapter;
+    private ToDoItemAdapter mAdapter;
 
     // TODO: Rename and change types of parameters
     public static TodoFragment newInstance(String param1, String param2) {
@@ -74,8 +83,71 @@ public class TodoFragment extends Fragment implements AbsListView.OnItemClickLis
         }
 
         // TODO: Change Adapter to display your content
-        mAdapter = new ArrayAdapter<DummyContent.DummyItem>(getActivity(),
-                android.R.layout.simple_list_item_1, android.R.id.text1, DummyContent.ITEMS);
+        mAdapter = new ToDoItemAdapter(getActivity());
+
+        getActivity().setTitle("To Do");
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+
+        inflater.inflate(R.menu.menu_todo, menu);
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_add) {
+            Intent intent = new Intent(getActivity(),AddReminderActivity.class);
+            startActivityForResult(intent,0);
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode==0 && resultCode==Activity.RESULT_OK){
+            String type = data.getStringExtra("type");
+            String group = data.getStringExtra("group");
+            String date = data.getStringExtra("date");
+            String time = data.getStringExtra("time");
+            String reminder = data.getStringExtra("reminder");
+
+            ToDoItem item = new ToDoItem(type,group,date,time,reminder);
+            mAdapter.add(item);
+
+        }
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        if (savedInstanceState != null) {
+            //Restore the fragment's state here
+
+            mAdapter.setList(savedInstanceState.<ToDoItem>getParcelableArrayList("todolist"));
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+//Save the fragment's state here
+        outState.putParcelableArrayList("todolist",mAdapter.getList());
+
+
     }
 
     @Override
