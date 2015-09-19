@@ -16,10 +16,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".Classes"
-            android:label="@string/title_activity_classes" >
-        </activity>
     </application>
 
 </manifest>
