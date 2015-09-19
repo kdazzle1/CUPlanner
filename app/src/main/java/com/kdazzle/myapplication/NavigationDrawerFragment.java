@@ -1,5 +1,6 @@
 package com.kdazzle.myapplication;
 
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.app.Activity;
 import android.support.v7.app.ActionBar;
@@ -189,11 +190,6 @@ public class NavigationDrawerFragment extends Fragment {
     }
 
     private void selectItem(int position) {
-        mCurrentSelectedPosition = position;
-        if (mCurrentSelectedPosition == 0)
-        {
-
-        }
         if (mDrawerListView != null) {
             mDrawerListView.setItemChecked(position, true);
         }
