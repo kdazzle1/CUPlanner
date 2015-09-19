@@ -83,13 +83,6 @@ public class NavigationDrawerFragment extends Fragment {
         selectItem(mCurrentSelectedPosition);
     }
 
-    private class DrawerItemClickListener implements ListView.OnItemClickListener {
-        @Override
-        public void onItemClick(AdapterView parent, View view, int position, long id) {
-            selectItem(position);
-        }
-    }
-
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -114,7 +107,6 @@ public class NavigationDrawerFragment extends Fragment {
                 android.R.id.text1,
                 navOptions));
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
-        mDrawerListView.setOnItemClickListener(new DrawerItemClickListener());
         return mDrawerListView;
     }
 
@@ -198,6 +190,10 @@ public class NavigationDrawerFragment extends Fragment {
 
     private void selectItem(int position) {
         mCurrentSelectedPosition = position;
+        if (mCurrentSelectedPosition == 0)
+        {
+
+        }
         if (mDrawerListView != null) {
             mDrawerListView.setItemChecked(position, true);
         }
