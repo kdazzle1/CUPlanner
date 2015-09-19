@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="app_name">CU Planner</string>
 
     <string name="hello_world">Elo Hello!</string>
     <string name="action_add">Add</string>
@@ -7,9 +7,9 @@
     <string name="elo_hell">Elo Hello</string>
     <string name="title_activity_main">MainActivity</string>
 
-    <string name="title_section1">Section 1</string>
-    <string name="title_section2">Section 2</string>
-    <string name="title_section3">Section 3</string>
+    <string name="title_to_do">To Do List</string>
+    <string name="title_classes">Classes</string>
+    <string name="title_clubs">Clubs</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
