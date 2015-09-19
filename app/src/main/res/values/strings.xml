@@ -16,10 +16,52 @@
 
     <string name="action_example">Example action</string>
 
+    <string name="category_spinner_prompt">Pick a Category</string>
+
+    <string-array name="reminder_types">
+        <item>Homework</item>
+        <item>Prelim</item>
+        <item>Final</item>
+        <item>Interview</item>
+        <item>Club Event</item>
+        <item>Athletic Team</item>
+    </string-array>
+
     <string-array name="navigation_options">
         <item>To Do List</item>
         <item>Classes</item>
         <item>Clubs</item>
     </string-array>
+
+    <string-array name="sample_classes">
+        <item>CS2110</item>
+        <item>CS4780</item>
+        <item>BTRY3080</item>
+    </string-array>
+
+    <string-array name="sample_clubs">
+        <item>club1</item>
+        <item>club2</item>
+        <item>club2</item>
+    </string-array>
+
+    <string-array name="sample_athletics">
+        <item>IM soccer</item>
+        <item>IM vb</item>
+        <item>Sports</item>
+    </string-array>
+
+    <string-array name="reminder_options">
+        <item>1 Hour</item>
+        <item>3 Hours</item>
+        <item>1/2 Day</item>
+        <item>1 Day</item>
+        <item>3 Days</item>
+        <item>1 Week</item>
+
+    </string-array>
+
+
+
     <string name="title_activity_classes">Classes</string>
 </resources>
