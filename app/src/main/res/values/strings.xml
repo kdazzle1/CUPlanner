@@ -14,4 +14,9 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_example">Example action</string>
+
+    <string-array name="navigation_options">
+        <item>Classes</item>
+        <item>Clubs</item>
+    </string-array>
 </resources>

@@ -58,12 +58,16 @@ public class NavigationDrawerFragment extends Fragment {
     private boolean mFromSavedInstanceState;
     private boolean mUserLearnedDrawer;
 
+    private String[] navOptions;
+
     public NavigationDrawerFragment() {
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        navOptions = getResources().getStringArray(R.array.navigation_options);
 
         // Read in the flag indicating whether or not the user has demonstrated awareness of the
         // drawer. See PREF_USER_LEARNED_DRAWER for details.
@@ -101,12 +105,9 @@ public class NavigationDrawerFragment extends Fragment {
                 getActionBar().getThemedContext(),
                 android.R.layout.simple_list_item_1,
                 android.R.id.text1,
-                new String[]{
-                        getString(R.string.title_section1),
-                        getString(R.string.title_section2),
-                        getString(R.string.title_section3),
-                }));
+                navOptions));
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
+        mDrawerListView.setOnItemClickListener(new DrawerItemClickListener());
         return mDrawerListView;
     }
 
