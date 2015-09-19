@@ -2,11 +2,15 @@ package com.kdazzle.myapplication;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
+
+import java.sql.Time;
+import java.util.Date;
 
 /**
  * Created by Eric on 9/19/2015.
  */
-public class ToDoItem implements Parcelable{
+public class ToDoItem implements Parcelable, Comparable<ToDoItem> {
     private String type;
     private String group;
     private String date;
@@ -104,5 +108,35 @@ public class ToDoItem implements Parcelable{
         }
     };
 
+    public int compareTo(ToDoItem t){
+        String[] mdy = date.split("/");
+        String[] tmdy = t.getDate().split("/");
+
+        int month = Integer.parseInt(mdy[0]);
+        int day = Integer.parseInt(mdy[1]);
+        int year = Integer.parseInt(mdy[2]);
+        int tmonth = Integer.parseInt(tmdy[0]);
+        int tday = Integer.parseInt(tmdy[1]);
+        int tyear = Integer.parseInt(tmdy[2]);
+
+        if (year < tyear)
+            return -1;
+        else if (year > tyear)
+            return 1;
+        else {
+            if (month < tmonth)
+                return -1;
+            else if (month > tmonth)
+                return 1;
+            else {
+                if (day < tday)
+                    return -1;
+                else if (day > tday)
+                    return 1;
+                else
+                    return 0;
+            }
+        }
+    }
 
 }
