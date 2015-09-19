@@ -46,8 +46,8 @@ public class AddReminderActivity extends AppCompatActivity {
     private static String timeString;
     private static String dateString;
 
-    private static Time time;
     private static Date date;
+    private static Time time;
 
     public static HashMap<String, ArrayList<ToDoItem>> getMap() {
         return map;
@@ -260,9 +260,16 @@ public class AddReminderActivity extends AppCompatActivity {
         }
 
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-            time = new Time(hourOfDay,minute,0);
-            timeString = hourOfDay + ":" + minute;
-            timeText.setText(timeString);
+            if (minute < 10) {
+                time = new Time(hourOfDay, minute, 0);
+                timeString = hourOfDay + ":0" + minute;
+                timeText.setText(timeString);
+            }
+            else {
+                time = new Time(hourOfDay, minute, 0);
+                timeString = hourOfDay + ":" + minute;
+                timeText.setText(timeString);
+            }
         }
     }
 
@@ -284,6 +291,7 @@ public class AddReminderActivity extends AppCompatActivity {
 
         @Override
         public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+            monthOfYear += 1;
             date = new Date(year,monthOfYear,dayOfMonth);
             dateString = monthOfYear + "/" + dayOfMonth + "/" + year;
             dateText.setText(dateString);
