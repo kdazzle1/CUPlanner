@@ -1,4 +1,4 @@
-package com.kdazzle.myapplication;
+package com.kdazzle.myapplication.Fragments;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -12,13 +12,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
+import com.kdazzle.myapplication.Adapters.ToDoItemAdapter;
+import com.kdazzle.myapplication.AddReminderActivity;
+import com.kdazzle.myapplication.R;
+import com.kdazzle.myapplication.ToDoItem;
 import com.kdazzle.myapplication.dummy.DummyContent;
-
-import java.util.ArrayList;
 
 /**
  * A fragment representing a list of Items.
@@ -30,6 +31,8 @@ import java.util.ArrayList;
  * interface.
  */
 public class TodoFragment extends Fragment implements AbsListView.OnItemClickListener {
+
+
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -55,6 +58,10 @@ public class TodoFragment extends Fragment implements AbsListView.OnItemClickLis
      * Views.
      */
     private ToDoItemAdapter mAdapter;
+
+    private Bundle savedState = null;
+    private String STAV = "stav";
+    private String VSTUP = "vstup";
 
     // TODO: Rename and change types of parameters
     public static TodoFragment newInstance(String param1, String param2) {
@@ -133,11 +140,13 @@ public class TodoFragment extends Fragment implements AbsListView.OnItemClickLis
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        if (savedInstanceState != null) {
-            //Restore the fragment's state here
-
-            mAdapter.setList(savedInstanceState.<ToDoItem>getParcelableArrayList("todolist"));
+        if(savedInstanceState != null && savedState == null) {
+            savedState = savedInstanceState.getBundle(STAV);
         }
+        if(savedState != null) {
+            mAdapter.setList(savedState.<ToDoItem>getParcelableArrayList("todolist"));
+        }
+        savedState = null;
     }
 
     @Override
@@ -145,9 +154,22 @@ public class TodoFragment extends Fragment implements AbsListView.OnItemClickLis
         super.onSaveInstanceState(outState);
 
 //Save the fragment's state here
-        outState.putParcelableArrayList("todolist",mAdapter.getList());
+        outState.putBundle(STAV, (savedState != null) ? savedState : saveState());;
 
 
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        savedState = saveState(); /* vstup defined here for sure */
+
+    }
+
+    private Bundle saveState() { /* called either from onDestroyView() or onSaveInstanceState() */
+        Bundle state = new Bundle();
+        state.putParcelableArrayList("todolist", mAdapter.getList());
+        return state;
     }
 
     @Override
@@ -181,6 +203,8 @@ public class TodoFragment extends Fragment implements AbsListView.OnItemClickLis
         super.onDetach();
         mListener = null;
     }
+
+
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

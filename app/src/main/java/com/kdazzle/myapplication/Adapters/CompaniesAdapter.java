@@ -1,4 +1,4 @@
-package com.kdazzle.myapplication;
+package com.kdazzle.myapplication.Adapters;
 
 /**
  * Created by Eric on 9/19/2015.
@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
@@ -25,60 +26,47 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Eric on 8/29/2015.
  */
-public class ToDoItemAdapter extends BaseAdapter {
+public class CompaniesAdapter extends BaseAdapter {
 
-    private ArrayList<ToDoItem> mItems = new ArrayList<ToDoItem>();
+    //    private ArrayList<String> mItems = new ArrayList<String>();
+    private ArrayList<String> items = new ArrayList<>();
+
     private Context mContext;
 
-    public ToDoItemAdapter(Context context){
+    public CompaniesAdapter(Context context){
         mContext = context;
     }
 
-    public void setList(ArrayList<ToDoItem> list){
-        mItems = list;
+    public void add(String item){
+
+        items.add(item);
         notifyDataSetChanged();
     }
 
-    public ArrayList<ToDoItem> getList(){
-        return mItems;
+    public ArrayList<String> getItems() {
+        return items;
     }
 
-
-    public void add(ToDoItem item) {
-
-        mItems.add(item);
+    public void setList(ArrayList<String> list){
+        items = list;
         notifyDataSetChanged();
-
     }
 
-    public ArrayList<ToDoItem> getmItems() {
-        return mItems;
-    }
-
-    public void setmItems(ArrayList<ToDoItem> mItems) {
-        this.mItems = mItems;
-    }
-
-
-    public void clear() {
-        mItems.clear();
-        notifyDataSetChanged();
-
-    }
 
 
     @Override
     public int getCount() {
-        return mItems.size();
+        return items.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return mItems.get(position);
+        return items.get(position);
     }
 
     @Override
@@ -88,26 +76,23 @@ public class ToDoItemAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ToDoItem item = (ToDoItem) getItem(position);
-        View toDoItemView;
+        String item = (String) getItem(position);
+        View classView;
         if(convertView == null){
             LayoutInflater layoutInflater = ((LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE));
-            toDoItemView = layoutInflater.inflate(R.layout.to_do_item_view,parent,false);
+            classView = layoutInflater.inflate(android.R.layout.simple_list_item_1,parent,false);
 
         }
         else{
-            toDoItemView = convertView;
+            classView = convertView;
         }
 
-
-        TextView title = (TextView) toDoItemView.findViewById(R.id.title);
-        TextView dateAndTime = (TextView) toDoItemView.findViewById(R.id.dateAndTime);
-
-        title.setText(item.getGroup());
-        dateAndTime.setText(item.getTime() + " on " + item.getDate());
+        TextView text = (TextView) classView.findViewById(android.R.id.text1);
+        text.setText(item);
 
 
-
-        return toDoItemView;
+        return classView;
     }
+
+
 }

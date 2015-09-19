@@ -1,29 +1,24 @@
 package com.kdazzle.myapplication;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.app.ActionBar;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.content.Context;
-import android.os.Build;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
-import android.widget.ArrayAdapter;
-import android.widget.TextView;
+
+import com.kdazzle.myapplication.Fragments.ClassesFragment;
+import com.kdazzle.myapplication.Fragments.ClubsFragment;
+import com.kdazzle.myapplication.Fragments.CompaniesFragment;
+import com.kdazzle.myapplication.Fragments.NavigationDrawerFragment;
+import com.kdazzle.myapplication.Fragments.TeamsFragment;
+import com.kdazzle.myapplication.Fragments.TodoFragment;
 
 
 public class MainActivity extends AppCompatActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks,
         ClassesFragment.OnFragmentInteractionListener, ClubsFragment.OnFragmentInteractionListener,
-        TodoFragment.OnFragmentInteractionListener {
+        TodoFragment.OnFragmentInteractionListener, CompaniesFragment.OnFragmentInteractionListener,
+        TeamsFragment.OnFragmentInteractionListener{
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -33,7 +28,7 @@ public class MainActivity extends AppCompatActivity
     /**
      * Fragments for each piece
      */
-    private Fragment todoFragment, classFragment, clubFragment;
+    private Fragment todoFragment, classFragment, clubFragment, teamFragment, companyFragment;
 
     /**
      * Used to store the last screen title. For use in.
@@ -45,12 +40,44 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-   
+
 
 
         todoFragment = new TodoFragment();
         classFragment = new ClassesFragment();
         clubFragment = new ClubsFragment();
+        companyFragment = new CompaniesFragment();
+        teamFragment = new TeamsFragment();
+
+
+
+        if (savedInstanceState != null) {
+            //Restore the fragment's instance
+            if(getFragmentManager().findFragmentByTag("TODO")!=null){
+                todoFragment = getSupportFragmentManager().getFragment(
+                        savedInstanceState, "todoTAG");
+            }
+            else if(getFragmentManager().findFragmentByTag("CLASS")!=null){
+                classFragment = getSupportFragmentManager().getFragment(
+                        savedInstanceState, "classTAG");
+            }
+            else if(getFragmentManager().findFragmentByTag("CLUB")!=null){
+                clubFragment = getSupportFragmentManager().getFragment(
+                        savedInstanceState, "clubTAG");
+            }
+            else if(getFragmentManager().findFragmentByTag("COMPANY")!=null){
+                clubFragment = getSupportFragmentManager().getFragment(
+                        savedInstanceState, "companyTAG");
+            }
+            else if(getFragmentManager().findFragmentByTag("TEAM")!=null){
+                clubFragment = getSupportFragmentManager().getFragment(
+                        savedInstanceState, "teamTAG");
+            }
+
+
+        }
+
+
 
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
@@ -79,23 +106,90 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        if (savedInstanceState != null) {
+            //Restore the fragment's instance
+            if (getFragmentManager().findFragmentByTag("TODO") != null) {
+                todoFragment = getSupportFragmentManager().getFragment(
+                        savedInstanceState, "todoTAG");
+            } else if (getFragmentManager().findFragmentByTag("CLASS") != null) {
+                classFragment = getSupportFragmentManager().getFragment(
+                        savedInstanceState, "classTAG");
+            } else if (getFragmentManager().findFragmentByTag("CLUB") != null) {
+                clubFragment = getSupportFragmentManager().getFragment(
+                        savedInstanceState, "clubTAG");
+            } else if (getFragmentManager().findFragmentByTag("COMPANY") != null) {
+                clubFragment = getSupportFragmentManager().getFragment(
+                        savedInstanceState, "companyTAG");
+            } else if (getFragmentManager().findFragmentByTag("TEAM") != null) {
+                clubFragment = getSupportFragmentManager().getFragment(
+                        savedInstanceState, "teamTAG");
+            }
+        }
+    }
+
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+//Save the fragment's instance
+
+        if(getFragmentManager().findFragmentByTag("TODO") != null && getFragmentManager().findFragmentByTag("TODO").isVisible()){
+            getSupportFragmentManager().putFragment(outState, "todoTAG", todoFragment);
+        }
+        else if(getFragmentManager().findFragmentByTag("CLASS") != null && getFragmentManager().findFragmentByTag("CLASS").isVisible()){
+            getSupportFragmentManager().putFragment(outState, "classTAG", classFragment);
+        }
+        else if(getFragmentManager().findFragmentByTag("CLUB") != null && getFragmentManager().findFragmentByTag("CLUB").isVisible()){
+            getSupportFragmentManager().putFragment(outState, "clubTAG", clubFragment);
+        }
+        else if(getFragmentManager().findFragmentByTag("COMPANY") != null && getFragmentManager().findFragmentByTag("COMPANY").isVisible()){
+            getSupportFragmentManager().putFragment(outState, "companyTAG", companyFragment);
+        }
+        else if(getFragmentManager().findFragmentByTag("TEAM") != null && getFragmentManager().findFragmentByTag("TEAM").isVisible()){
+            getSupportFragmentManager().putFragment(outState, "teamTAG", teamFragment);
+        }
+
+
+
+    }
+
+    @Override
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
         if (position == 0) {
             FragmentManager fragmentManager = getSupportFragmentManager();
             if (todoFragment != null)
-                fragmentManager.beginTransaction().replace(R.id.container, todoFragment).commit();
+                fragmentManager.beginTransaction().replace(R.id.container, todoFragment, "TODO").commit();
+
+
+
 //            mTitle = getString(R.string.title_to_do);
         }
         else if (position == 1) {
             FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction().replace(R.id.container, classFragment).commit();
+            fragmentManager.beginTransaction().replace(R.id.container, classFragment, "CLASS").commit();
 //            mTitle = getString(R.string.title_classes);
 
         }
         else if (position == 2) {
             FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction().replace(R.id.container, clubFragment).commit();
+            fragmentManager.beginTransaction().replace(R.id.container, clubFragment,"CLUB").commit();
+//            mTitle = getString(R.string.title_clubs);
+        }
+
+        else if (position == 3) {
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.container, companyFragment,"COMPANY").commit();
+//            mTitle = getString(R.string.title_clubs);
+        }
+
+
+        else if (position == 4) {
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.container, teamFragment,"TEAM").commit();
 //            mTitle = getString(R.string.title_clubs);
         }
     }

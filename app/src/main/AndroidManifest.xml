@@ -17,7 +17,15 @@
             </intent-filter>
         </activity>
         <activity android:name=".AddReminderActivity"
-            android:label="@string/title_activity_add">
+            android:label="@string/title_activity_add"
+            android:parentActivityName=".MainActivity">
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity android:name=".ShowList"
+            android:label="@string/title_activity_show"
+            android:parentActivityName=".MainActivity">
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
