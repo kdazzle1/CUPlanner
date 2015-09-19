@@ -1,6 +1,7 @@
 package com.kdazzle.myapplication;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -84,7 +85,7 @@ public class MainActivity extends AppCompatActivity
             // Only show items in the action bar relevant to this screen
             // if the drawer is not showing. Otherwise, let the drawer
             // decide what to show in the action bar.
-            getMenuInflater().inflate(R.menu.main, menu);
+            getMenuInflater().inflate(R.menu.menu_main, menu);
             restoreActionBar();
             return true;
         }
@@ -100,6 +101,8 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_add) {
+            Intent intent = new Intent(getApplicationContext(),AddReminderActivity.class);
+            startActivityForResult(intent,0);
             return true;
         }
 
