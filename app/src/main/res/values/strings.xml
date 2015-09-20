@@ -23,8 +23,8 @@
         <item>Prelim</item>
         <item>Final</item>
         <item>Interview</item>
-        <item>Club Event</item>
-        <item>Athletic Team</item>
+        <item>Meeting</item>
+        <item>Practice</item>
     </string-array>
 
     <string-array name="navigation_options">

@@ -45,7 +45,7 @@ public class ToDoItemAdapter extends BaseAdapter {
     private int[] rowStates;
 
     //Separator strings
-    private static final String[] dividers = {"Today", "Tomorrow", "Later this Week", "Later this Month", "Later"};
+    private static final String[] dividers = {"Today", "Tomorrow", "Later this Week", "Next Week", "Later this Month", "Later"};
 
     public ToDoItemAdapter(Context context){
         mContext = context;
@@ -123,7 +123,7 @@ public class ToDoItemAdapter extends BaseAdapter {
         TextView title = (TextView) toDoItemView.findViewById(R.id.title);
         TextView dateAndTime = (TextView) toDoItemView.findViewById(R.id.dateAndTime);
 
-        title.setText(item.getGroup());
+        title.setText(item.getGroup() + " " + item.getType());
         dateAndTime.setText(item.getTime() + " on " + item.getDate());
 
         //This should be decided if the textview above is within the time range (today, tomorrow, later this week, etc.)
@@ -156,12 +156,16 @@ public class ToDoItemAdapter extends BaseAdapter {
                 separatorView.setText(dividers[2]);
                 separatorView.setVisibility(View.VISIBLE);
             }
-            else if (getProximity(item) == "LATER THIS MONTH") {
+            else if (getProximity(item) == "NEXT WEEK") {
                 separatorView.setText(dividers[3]);
+                separatorView.setVisibility((View.VISIBLE));
+            }
+            else if (getProximity(item) == "LATER THIS MONTH") {
+                separatorView.setText(dividers[4]);
                 separatorView.setVisibility(View.VISIBLE);
             }
             else if (getProximity(item) == "LATER") {
-                separatorView.setText(dividers[4]);
+                separatorView.setText(dividers[5]);
                 separatorView.setVisibility(View.VISIBLE);
             }
         }
@@ -226,6 +230,10 @@ public class ToDoItemAdapter extends BaseAdapter {
             return "LATER THIS WEEK";
 
         else if (targetDay > beginWeek + (7 * dayMilliseconds) &&
+                targetDay <= beginWeek + (14 * dayMilliseconds))
+            return "NEXT WEEK";
+
+        else if (targetDay > beginWeek + (14 * dayMilliseconds) &&
                 targetDay <= beginMonth + (today.getActualMaximum(Calendar.DAY_OF_MONTH) * dayMilliseconds))
             return "LATER THIS MONTH";
 
