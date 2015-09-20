@@ -105,6 +105,11 @@ public class ToDoItemAdapter extends BaseAdapter {
         ToDoItem item = (ToDoItem) getItem(position);
         View toDoItemView;
 
+
+
+
+
+
         if(convertView == null){
             LayoutInflater layoutInflater = ((LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE));
             toDoItemView = layoutInflater.inflate(R.layout.to_do_item_view,parent,false);
@@ -123,6 +128,18 @@ public class ToDoItemAdapter extends BaseAdapter {
 
         //This should be decided if the textview above is within the time range (today, tomorrow, later this week, etc.)
         boolean showSeparator = true;
+
+        if (position == 0)
+            showSeparator = true;
+        else {
+            int p = position - 1;
+            while (p >= 0) {
+                ToDoItem i = (ToDoItem) getItem(p);
+                if (getProximity(item) == getProximity(i))
+                    showSeparator = false;
+                p--;
+            }
+        }
 
         TextView separatorView = (TextView) toDoItemView.findViewById(R.id.separator);
 

@@ -1,5 +1,9 @@
 package com.kdazzle.myapplication;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v4.app.Fragment;
@@ -12,6 +16,8 @@ import com.kdazzle.myapplication.Fragments.CompaniesFragment;
 import com.kdazzle.myapplication.Fragments.NavigationDrawerFragment;
 import com.kdazzle.myapplication.Fragments.TeamsFragment;
 import com.kdazzle.myapplication.Fragments.TodoFragment;
+
+import java.util.Calendar;
 
 
 public class MainActivity extends AppCompatActivity
@@ -35,12 +41,13 @@ public class MainActivity extends AppCompatActivity
      */
 //    private CharSequence mTitle;
 
+    private AlarmManager alarmManager;
+    private PendingIntent alarmIntent;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
 
 
         todoFragment = new TodoFragment();
@@ -49,7 +56,9 @@ public class MainActivity extends AppCompatActivity
         companyFragment = new CompaniesFragment();
         teamFragment = new TeamsFragment();
 
-
+        alarmManager = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(this, AlarmReceiver.class);
+        alarmIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
 
         if (savedInstanceState != null) {
             //Restore the fragment's instance
@@ -103,6 +112,23 @@ public class MainActivity extends AppCompatActivity
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.container, todoFragment).commit();
         }
+    }
+
+    public void setAlarm(ToDoItem item){
+        String[] mdy = item.getDate().split("/");
+        int month = Integer.parseInt(mdy[0]);
+        int day = Integer.parseInt(mdy[1]);
+        int year = Integer.parseInt(mdy[2]);
+
+        String[] time = item.getTime().split(":");
+        int hour = Integer.parseInt(time[0]);
+        int minute = Integer.parseInt(time[1]);
+
+        Calendar calendar = Calendar.getInstance();
+
+        calendar.set(year, month, day, hour, minute);
+
+        alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, calendar.getTimeInMillis(), alarmIntent);
     }
 
     @Override

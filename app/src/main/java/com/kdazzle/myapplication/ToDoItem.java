@@ -119,6 +119,15 @@ public class ToDoItem implements Parcelable, Comparable<ToDoItem> {
         int tday = Integer.parseInt(tmdy[1]);
         int tyear = Integer.parseInt(tmdy[2]);
 
+
+        String[] thisTime = time.split(":");
+        String[] thatTime = t.getTime().split(":");
+
+        int hour = Integer.parseInt(thisTime[0]);
+        int minute = Integer.parseInt(thisTime[1]);
+        int thour = Integer.parseInt(thatTime[0]);
+        int tminute = Integer.parseInt(thatTime[1]);
+
         if (year < tyear)
             return -1;
         else if (year > tyear)
@@ -133,8 +142,20 @@ public class ToDoItem implements Parcelable, Comparable<ToDoItem> {
                     return -1;
                 else if (day > tday)
                     return 1;
-                else
-                    return 0;
+                else {
+                    if (hour < thour)
+                        return -1;
+                    else if (hour > thour)
+                        return 1;
+                    else {
+                        if (minute < tminute)
+                            return -1;
+                        else if (minute > tminute)
+                            return 1;
+                        else
+                            return 0;
+                    }
+                }
             }
         }
     }
