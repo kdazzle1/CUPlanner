@@ -80,6 +80,14 @@ public class CompaniesFragment extends Fragment implements AbsListView.OnItemCli
 //        return fragment;
 //    }
 
+    public CompaniesAdapter getmAdapter() {
+        return mAdapter;
+    }
+
+    public void renew(ArrayList<String> list){
+        companyList = list;
+    }
+
 
 
     /**
@@ -100,6 +108,7 @@ public class CompaniesFragment extends Fragment implements AbsListView.OnItemCli
 
         // TODO: Change Adapter to display your content
         mAdapter = new CompaniesAdapter(getActivity());
+        mAdapter.setList(companyList);
 
         getActivity().setTitle("Companies");
         setHasOptionsMenu(true);
@@ -156,8 +165,9 @@ public class CompaniesFragment extends Fragment implements AbsListView.OnItemCli
                             // Write your code here to execute after dialog
                             String newCompany = "" + input.getText();
 
-                            mAdapter.add(newCompany);
+//                            mAdapter.add(newCompany);
                             companyList.add(newCompany);
+                            mAdapter.setList(companyList);
 //                            mAdapter.notifyDataSetChanged();
                             dialog.dismiss();
 //                            Toast.makeText(getActivity(),"Password Matched", Toast.LENGTH_SHORT).show();
@@ -270,6 +280,8 @@ public class CompaniesFragment extends Fragment implements AbsListView.OnItemCli
         super.onDetach();
         mListener = null;
     }
+
+
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

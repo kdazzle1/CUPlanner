@@ -70,6 +70,10 @@ public class ClassesFragment extends Fragment implements AbsListView.OnItemClick
      */
     private ClassAdapter mAdapter;
 
+    public ClassAdapter getmAdapter() {
+        return mAdapter;
+    }
+
     // TODO: Rename and change types of parameters
     public static ClassesFragment newInstance(String param1, String param2) {
         ClassesFragment fragment = new ClassesFragment();
@@ -100,6 +104,7 @@ public class ClassesFragment extends Fragment implements AbsListView.OnItemClick
 
         // TODO: Change Adapter to display your content
         mAdapter = new ClassAdapter(getActivity());
+        mAdapter.setList(classList);
 
         getActivity().setTitle("Classes");
         setHasOptionsMenu(true);
@@ -112,6 +117,10 @@ public class ClassesFragment extends Fragment implements AbsListView.OnItemClick
 
         inflater.inflate(R.menu.menu_todo, menu);
 
+    }
+
+    public void renew(ArrayList<String> list){
+        classList = (list);
     }
 
 
@@ -156,8 +165,9 @@ public class ClassesFragment extends Fragment implements AbsListView.OnItemClick
                             // Write your code here to execute after dialog
                             String newClass = "" + input.getText();
 
-                            mAdapter.add(newClass);
                             classList.add(newClass);
+                            mAdapter.setList(classList);
+
 //                            mAdapter.notifyDataSetChanged();
                             dialog.dismiss();
 //                            Toast.makeText(getActivity(),"Password Matched", Toast.LENGTH_SHORT).show();

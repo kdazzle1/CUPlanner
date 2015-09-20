@@ -2,10 +2,15 @@ package com.kdazzle.myapplication;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import java.sql.Time;
+import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
 /**
  * Created by Eric on 9/19/2015.

@@ -1,5 +1,6 @@
 package com.kdazzle.myapplication.Fragments;
 
+import android.graphics.Color;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.app.Activity;
@@ -12,6 +13,7 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -20,7 +22,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.kdazzle.myapplication.R;
@@ -53,6 +58,8 @@ public class NavigationDrawerFragment extends Fragment {
      */
     private ActionBarDrawerToggle mDrawerToggle;
 
+    private static TextView title;
+
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerListView;
     private View mFragmentContainerView;
@@ -81,6 +88,9 @@ public class NavigationDrawerFragment extends Fragment {
             mCurrentSelectedPosition = savedInstanceState.getInt(STATE_SELECTED_POSITION);
             mFromSavedInstanceState = true;
         }
+
+
+
 
         // Select either the default item (0) or the last selected item.
         selectItem(mCurrentSelectedPosition);
@@ -133,15 +143,52 @@ public class NavigationDrawerFragment extends Fragment {
 
         ActionBar actionBar = getActionBar();
         actionBar.setIcon(android.R.drawable.ic_menu_more);
-        actionBar.setDisplayHomeAsUpEnabled(false);
-        actionBar.setHomeButtonEnabled(false);
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeButtonEnabled(true);
+        View mActionBarView = getActivity().getLayoutInflater().inflate(R.layout.action_bar, null);
+
+        ImageButton b = (ImageButton) mActionBarView.findViewById(R.id.btn_open_nav_drawer);
+        b.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isDrawerOpen()) {
+                    mDrawerLayout.closeDrawer(Gravity.LEFT);
+                } else {
+                    mDrawerLayout.openDrawer(Gravity.LEFT);
+                }
+            }
+        });
+
+        title = (TextView) mActionBarView.findViewById(R.id.action_bar_title);
+        if(mCurrentSelectedPosition == 0){
+            title.setText("To Do");
+        }
+        else if(mCurrentSelectedPosition == 1){
+            title.setText("Classes");
+        }
+        else if(mCurrentSelectedPosition == 2){
+            title.setText("Clubs");
+        }
+        else if(mCurrentSelectedPosition == 3){
+            title.setText("Companies");
+        }
+        else if(mCurrentSelectedPosition == 4){
+            title.setText("Sports Teams");
+        }
+
+//        title.setTextColor(Color.WHITE);
+//        title.setTextSize();
+
+
+        actionBar.setCustomView(mActionBarView);
+        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
 
         // ActionBarDrawerToggle ties together the the proper interactions
         // between the navigation drawer and the action bar app icon.
         mDrawerToggle = new ActionBarDrawerToggle(
                 getActivity(),                    /* host Activity */
                 mDrawerLayout,                    /* DrawerLayout object */
-                R.drawable.ic_drawer,             /* nav drawer image to replace 'Up' caret */
+                android.R.drawable.ic_menu_report_image,             /* nav drawer image to replace 'Up' caret */
                 R.string.navigation_drawer_open,  /* "open drawer" description for accessibility */
                 R.string.navigation_drawer_close  /* "close drawer" description for accessibility */
         ) {
@@ -190,6 +237,29 @@ public class NavigationDrawerFragment extends Fragment {
         });
 
         mDrawerLayout.setDrawerListener(mDrawerToggle);
+    }
+
+
+
+    public static void setTitle(int mCurrentSelectedPosition){
+        if(title == null){
+            return;
+        }
+        if(mCurrentSelectedPosition == 0){
+            title.setText("To Do");
+        }
+        else if(mCurrentSelectedPosition == 1){
+            title.setText("Classes");
+        }
+        else if(mCurrentSelectedPosition == 2){
+            title.setText("Clubs");
+        }
+        else if(mCurrentSelectedPosition == 3){
+            title.setText("Companies");
+        }
+        else if(mCurrentSelectedPosition == 4){
+            title.setText("Sports Teams");
+        }
     }
 
     private void selectItem(int position) {

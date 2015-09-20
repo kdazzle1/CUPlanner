@@ -90,6 +90,10 @@ public class TeamsFragment extends Fragment implements AbsListView.OnItemClickLi
     public TeamsFragment() {
     }
 
+    public TeamsAdapter getmAdapter() {
+        return mAdapter;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,6 +105,7 @@ public class TeamsFragment extends Fragment implements AbsListView.OnItemClickLi
 
         // TODO: Change Adapter to display your content
         mAdapter = new TeamsAdapter(getActivity());
+        mAdapter.setList(teamList);
 
         getActivity().setTitle("Athletic Teams");
         setHasOptionsMenu(true);
@@ -157,8 +162,9 @@ public class TeamsFragment extends Fragment implements AbsListView.OnItemClickLi
                             // Write your code here to execute after dialog
                             String newTeam = "" + input.getText();
 
-                            mAdapter.add(newTeam);
+
                             teamList.add(newTeam);
+                            mAdapter.setList(teamList);
 //                            mAdapter.notifyDataSetChanged();
                             dialog.dismiss();
 //                            Toast.makeText(getActivity(),"Password Matched", Toast.LENGTH_SHORT).show();
@@ -294,6 +300,10 @@ public class TeamsFragment extends Fragment implements AbsListView.OnItemClickLi
             startActivity(intent);
 
         }
+    }
+
+    public void renew(ArrayList<String> list){
+        teamList = list;
     }
 
     /**

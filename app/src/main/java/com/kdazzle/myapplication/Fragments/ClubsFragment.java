@@ -70,6 +70,9 @@ public class ClubsFragment extends Fragment implements AbsListView.OnItemClickLi
      */
     private ClubsAdapter mAdapter;
 
+    public ClubsAdapter getmAdapter() {
+        return mAdapter;
+    }
 //    // TODO: Rename and change types of parameters
 //    public static ClassesFragment newInstance(String param1, String param2) {
 //        ClassesFragment fragment = new ClassesFragment();
@@ -100,6 +103,7 @@ public class ClubsFragment extends Fragment implements AbsListView.OnItemClickLi
 
         // TODO: Change Adapter to display your content
         mAdapter = new ClubsAdapter(getActivity());
+        mAdapter.setList(clubList);
 
         getActivity().setTitle("Clubs");
         setHasOptionsMenu(true);
@@ -156,8 +160,9 @@ public class ClubsFragment extends Fragment implements AbsListView.OnItemClickLi
                             // Write your code here to execute after dialog
                             String newClub = "" + input.getText();
 
-                            mAdapter.add(newClub);
+
                             clubList.add(newClub);
+                            mAdapter.setList(clubList);
 //                            mAdapter.notifyDataSetChanged();
                             dialog.dismiss();
 //                            Toast.makeText(getActivity(),"Password Matched", Toast.LENGTH_SHORT).show();
@@ -306,6 +311,10 @@ public class ClubsFragment extends Fragment implements AbsListView.OnItemClickLi
         if (emptyView instanceof TextView) {
             ((TextView) emptyView).setText(emptyText);
         }
+    }
+
+    public void renew(ArrayList<String> list){
+        clubList = list;
     }
 
     /**

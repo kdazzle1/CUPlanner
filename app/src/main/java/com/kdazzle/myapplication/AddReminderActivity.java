@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -60,6 +61,8 @@ public class AddReminderActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_add_reminder);
+
+
 
         time = null;
         date = null;
@@ -235,6 +238,14 @@ public class AddReminderActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case (android.R.id.home):
+                finish();
+        }
+        return true;
+    }
 
 //    @Override
 //    public boolean onCreateOptionsMenu(Menu menu) {

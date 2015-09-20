@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -20,6 +21,9 @@ import com.kdazzle.myapplication.AddReminderActivity;
 import com.kdazzle.myapplication.R;
 import com.kdazzle.myapplication.ToDoItem;
 import com.kdazzle.myapplication.dummy.DummyContent;
+
+import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * A fragment representing a list of Items.
@@ -44,7 +48,7 @@ public class TodoFragment extends Fragment implements AbsListView.OnItemClickLis
     private String mParam2;
 
 
-
+    private static ArrayList<ToDoItem> list = new ArrayList<ToDoItem>();
 
     private OnFragmentInteractionListener mListener;
 
@@ -62,6 +66,14 @@ public class TodoFragment extends Fragment implements AbsListView.OnItemClickLis
     private Bundle savedState = null;
     private String STAV = "stav";
     private String VSTUP = "vstup";
+
+
+    public static  ArrayList<ToDoItem> getList(){
+//        if(list == null){
+//            list = new ArrayList<>();
+//        }
+        return list;
+    };
 
     // TODO: Rename and change types of parameters
     public static TodoFragment newInstance(String param1, String param2) {
@@ -91,6 +103,7 @@ public class TodoFragment extends Fragment implements AbsListView.OnItemClickLis
 
         // TODO: Change Adapter to display your content
         mAdapter = new ToDoItemAdapter(getActivity());
+        mAdapter.setList(list);
 
         getActivity().setTitle("To Do");
         setHasOptionsMenu(true);
@@ -131,8 +144,22 @@ public class TodoFragment extends Fragment implements AbsListView.OnItemClickLis
             String reminder = data.getStringExtra("reminder");
 
             ToDoItem item = new ToDoItem(type,group,date,time,reminder);
-            mAdapter.add(item);
+//            mAdapter.add(item);
 
+            list.add(item);
+            Log.e("MINE","added todoitem to list. size is now " + list.size());
+            Collections.sort(list);
+            mAdapter.setList(list);
+
+        }
+    }
+
+    public void renew(ArrayList<ToDoItem> list){
+
+        this.list = list;
+//        mAdapter.setList(list);
+        if(mAdapter!=null){
+            mAdapter.setList(list);
         }
     }
 
@@ -179,7 +206,9 @@ public class TodoFragment extends Fragment implements AbsListView.OnItemClickLis
 
         // Set the adapter
         mListView = (AbsListView) view.findViewById(android.R.id.list);
-        ((AdapterView<ListAdapter>) mListView).setAdapter(mAdapter);
+        mAdapter = new ToDoItemAdapter(getActivity());
+        mAdapter.setList(list);
+        (mListView).setAdapter(mAdapter);
 
         // Set OnItemClickListener so we can be notified on item clicks
         mListView.setOnItemClickListener(this);
